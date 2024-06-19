@@ -13,6 +13,7 @@ A complete REST API for a freelancer project management system.
 - **Authentication and Authorization with JWT**
 - **Unit Testing**
 - **Messaging with RabbitMQ**
+- **Azure Pipelines**
 
 ## Features
 
