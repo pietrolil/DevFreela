@@ -4,13 +4,11 @@ using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.Commands.FinishProject;
 using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.UpdateProject;
-using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DevFreela.API.Controllers
 {
@@ -26,7 +24,8 @@ namespace DevFreela.API.Controllers
 
         //api/projects?id=12
         [HttpGet]
-        public async Task<IActionResult> Get(string query)
+        [Authorize(Roles = "client, freelancer")]
+        public async Task<IActionResult> Get(string? query)
         {
             var getAllProjectsQuery = new GetAllProjectsQuery(query);
 
@@ -37,6 +36,7 @@ namespace DevFreela.API.Controllers
 
         //api/projects/3
         [HttpGet("{id}")]
+        [Authorize(Roles = "client, freelancer")]
         public async Task<IActionResult> GetById(int id)
         {
             var query = new GetProjectByIdQuery(id);
@@ -52,14 +52,10 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Post([FromBody] CreateProjectCommand command)
         {
-            if (command.Description.Length > 50)
-            {
-                return BadRequest();
-            }
-
-            //var id = _projectService.Create(inputModel);
+        
             var id = await _mediator.Send(command);
 
             return CreatedAtAction(nameof(GetById), new {id = id}, command);
@@ -67,12 +63,9 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateProjectCommand command)
         {
-            if (command.Description.Length > 200)
-            {
-                return BadRequest();
-            }
 
             await _mediator.Send(command);
 
@@ -80,6 +73,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Delete(int id)
         {
             var deletQuery = new DeleteProjectCommand(id);
@@ -90,6 +84,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost("{id}/comments")]
+        [Authorize(Roles = "client, freelancer")]
         public async Task<IActionResult> PostComment(int id, [FromBody] CreateCommentCommand command)
         {
             await _mediator.Send(command);
@@ -98,6 +93,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}/start")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Start(int id)
         {
             var startQuery = new StartProjectCommand(id);
@@ -108,6 +104,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}/finish")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Finish(int id)
         {
             var finishQuery = new FinishProjectCommand(id);

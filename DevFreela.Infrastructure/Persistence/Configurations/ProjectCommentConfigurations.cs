@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 using DevFreela.Core.Entities;
-using System.Reflection.Emit;
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
     public class ProjectCommentConfigurations : IEntityTypeConfiguration<ProjectComment>
