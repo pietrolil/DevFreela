@@ -1,6 +1,10 @@
 ﻿using DevFreela.Application.ViewModels;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DevFreela.Application.Queries.GetProjectById
 {
@@ -24,11 +28,10 @@ namespace DevFreela.Application.Queries.GetProjectById
                 project.Description,
                 project.TotalCost,
                 project.StartedAt,
-                project.FinishAt,
+                project.FinishedAt,
                 project.Client.FullName,
                 project.Freelancer.FullName
-
-            );
+                );
 
             return projectDetailsViewModel;
         }

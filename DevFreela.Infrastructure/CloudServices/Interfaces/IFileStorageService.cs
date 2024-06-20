@@ -1,4 +1,8 @@
-﻿namespace DevFreela.Infrastructure.CloudServices.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DevFreela.Infrastructure.CloudServices.Interfaces
 {
     public interface IFileStorageService
     {

@@ -1,6 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DevFreela.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DevFreela.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
     public class ProjectCommentConfigurations : IEntityTypeConfiguration<ProjectComment>
@@ -13,14 +17,12 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
             builder
                 .HasOne(p => p.Project)
                 .WithMany(p => p.Comments)
-                .HasForeignKey(p => p.IdProject)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(p => p.IdProject);
 
             builder
-                 .HasOne(p => p.User)
+                .HasOne(p => p.User)
                 .WithMany(p => p.Comments)
-                .HasForeignKey(p => p.IdUser)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(p => p.IdUser);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DevFreela.Core.Entities
+﻿using System;
+
+namespace DevFreela.Core.Entities
 {
     public class Skill : BaseEntity
     {
@@ -9,7 +11,6 @@
         }
 
         public string Description { get; private set; }
-
         public DateTime CreatedAt { get; private set; }
     }
 }

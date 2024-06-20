@@ -1,24 +1,19 @@
 ﻿using DevFreela.Application.Commands.CreateProject;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevFreela.Application.Validators
 {
-    public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
+    public class CreateProjectCommandvalidator : AbstractValidator<CreateProjectCommand>
     {
-        public CreateProjectCommandValidator()
+        public CreateProjectCommandvalidator()
         {
             RuleFor(p => p.Description)
                 .MaximumLength(255)
-                .WithMessage("Tamanho maximo de Descrição é de 255 caracteres");
+                .WithMessage("Tamanho máximo de Descriçao é de 255 caracteres.");
 
             RuleFor(p => p.Title)
                 .MaximumLength(30)
-                .WithMessage("Tamanho maximo de Titulo é de 30 caracteres");
+                .WithMessage("Tamanho máximo de Título é de 30 caracteres");
         }
     }
 }

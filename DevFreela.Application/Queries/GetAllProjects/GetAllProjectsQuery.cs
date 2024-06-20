@@ -1,5 +1,6 @@
 ﻿using DevFreela.Application.ViewModels;
 using MediatR;
+using System.Collections.Generic;
 
 namespace DevFreela.Application.Queries.GetAllProjects
 {
@@ -10,6 +11,6 @@ namespace DevFreela.Application.Queries.GetAllProjects
             Query = query;
         }
 
-        public string? Query { get; private set; }
+        public string Query { get; private set; }
     }
 }

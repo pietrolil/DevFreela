@@ -1,12 +1,12 @@
-﻿namespace DevFreela.Core.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DevFreela.Core.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        protected BaseEntity()
-        {
-
-        }
-
+        protected BaseEntity() { }
         public int Id { get; private set; }
     }
 }
