@@ -1,5 +1,6 @@
 ﻿using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Core.Entities;
+using DevFreela.Core.Models;
 using DevFreela.Core.Repositories;
 using Moq;
 using System;
@@ -16,30 +17,33 @@ namespace DevFreela.UnitTests.Application.Queries
         public async Task ThreeProjectsExist_Executed_ReturnThreeProjectViewModel()
         {
             //Arrange
-            var projects = new List<Project>
+            var projects = new PaginationResult<Project>
             {
-                new Project("Nome 1", "Descricao 1", 1, 2, 1000),
-                new Project("Nome 2", "Descricao 2", 3, 4, 2000),
-                new Project("Nome 3", "Descricao 3", 5, 6, 3000),
+                Data = new List<Project>
+                {
+					new Project("Nome 1", "Descricao 1", 1, 2, 1000),
+				    new Project("Nome 2", "Descricao 2", 3, 4, 2000),
+				    new Project("Nome 3", "Descricao 3", 5, 6, 3000),
+				}
             };
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
-            projectRepositoryMock.Setup(pr => pr.GetAllAsync().Result).Returns(projects);
+            projectRepositoryMock.Setup(pr => pr.GetAllAsync(It.IsAny<string>(), It.IsAny<int>()).Result).Returns(projects);
 
-            var getAllProjectsQuery = new GetAllProjectsQuery("");
+            var getAllProjectsQuery = new GetAllProjectsQuery { Query = "", Page = 1};
             var getAllProjectsQueryHandler = new GetAllProjectsQueryHandler(projectRepositoryMock.Object);
 
             //Act
 
-            var projectViewModelList = await getAllProjectsQueryHandler.Handle(getAllProjectsQuery, new CancellationToken());
+            var paginationProjectViewModelList = await getAllProjectsQueryHandler.Handle(getAllProjectsQuery, new CancellationToken());
 
             //Assert
-            Assert.NotNull(projectViewModelList);
-            Assert.NotEmpty(projectViewModelList);
+            Assert.NotNull(paginationProjectViewModelList);
+            Assert.NotEmpty(paginationProjectViewModelList.Data);
 
-            Assert.Equal(projects.Count, projectViewModelList.Count);
+            Assert.Equal(projects.Data.Count, paginationProjectViewModelList.Data.Count);
 
-            projectRepositoryMock.Verify(pr => pr.GetAllAsync().Result, Times.Once);
+            projectRepositoryMock.Verify(pr => pr.GetAllAsync(It.IsAny<string>(), It.IsAny<int>()).Result, Times.Once);
         }
     }
 }
